@@ -1,37 +1,30 @@
 import './App.css';
 import React from 'react';
+import { connect } from 'react-redux';
 
-//function App() {
-//  return (
-//    <div>Hello, World</div>
-//  );
-//}
+import { increment, decrement} from './action/action';
 
 class App extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      count: 0
-    }
-  }
-
-  numPlus = () => {
-    const int = this.state.count;
-    this.setState({ count: int + 1 });
-  }
-  numMinus = () => {
-    const int = this.state.count;
-    this.setState({ count: int - 1 });
   }
 
   render(){
+    const props = this.props;
     return(
       <div>
-        <p>{this.state.count}</p>
-        <button onClick={this.numPlus}>+1</button>
-        <button onClick={this.numMinus}>-1</button>
+        <p>value: { props.value }</p>
+        <button onClick={props.increment}>+1</button>
+        <button onClick={props.decrement}>-1</button>
       </div>
     )
   }
 }
-export default App;
+
+const mapStateToProps = state => ({ value: state.count.value })
+const mapDispatchToProps = dispatch => ({
+  increment: () => dispatch(increment()),
+  decrement: () => dispatch(decrement())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
