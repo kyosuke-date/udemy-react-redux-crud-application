@@ -1,10 +1,35 @@
-export const INCREMENT = 'INCREMENT';
-export const DECREMENT = 'DECREMENT';
+import axios from 'axios';
 
-export const increment = () => ({
-  type: 'INCREMENT'
-});
+export const READ_EVENTS = 'READ_EVENTS';
+export const READ_EVENT = 'READ_EVENT';
+export const UPDATE_EVENT = 'UPDATE_EVENT';
+export const CREATE_EVENTS = 'CREATE_EVENTS';
+export const DELETE_EVENTS = 'DELETE_EVENTS';
 
-export const decrement = () => ({
-  type: 'DECREMENT'
-});
+const ROOT_URL = 'https://udemy-utils.herokuapp.com/api/v1';
+const QUERYSTRING = '?token=token123';
+
+export const readEvents = () => async dispatch => {
+  const response = await axios.get(`${ROOT_URL}/events${QUERYSTRING}`);
+  dispatch({ type: READ_EVENTS, response })
+};
+export const postEvents = values => async dispatch => {
+  const response = await axios.post(`${ROOT_URL}/events${QUERYSTRING}`, values);
+  dispatch({ type: CREATE_EVENTS, response })
+};
+
+export const putEvents = values => async dispatch => {
+  const response = await axios.put(`${ROOT_URL}/events/${values.id}${QUERYSTRING}`, values)
+  dispatch({ type: UPDATE_EVENT, response})
+}
+
+export const getEvents = id => async dispatch => {
+  const response = await axios.get(`${ROOT_URL}/events/${id}${QUERYSTRING}`)
+  dispatch({ type: READ_EVENT, response})
+}
+
+export const deleteEvents = id => async dispatch => {
+  await axios.delete(`${ROOT_URL}/events/${id}${QUERYSTRING}`);
+  dispatch({ type: DELETE_EVENTS, id })
+};
+

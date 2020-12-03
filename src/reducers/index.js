@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
-import count from './count';
+import events from './events';
+import { reducer as form } from 'redux-form';
 
-export default combineReducers({ count })
+export default combineReducers({ events, form })
